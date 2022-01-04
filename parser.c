@@ -14,20 +14,33 @@ int getFunIndex (char* funame) {
     if(strcmp(funame, funInfos[i].funame)==0)
        return i;
   }
-  return NULL;
+  return -1;
 }
        
 void store_add_call (char* funame, int line, char* inpname){
   funInfos[getFunIndex(funame)].funCalls[numOfFunCalls].line = line;
   funInfos[getFunIndex(funame)].funCalls[numOfFunCalls].nameOfFile = inpname;
+	numOfFunCalls++;
 }
        
-void store_add_proto (char* funame, int line, char inpname){
+void store_add_proto (char* funame, int line, char* inpname){
+  if(getFunIndex==-1){
+    funInfos[numOfFuns].funame = funame;
+    numOfFuns++;
+  }
+    
+  
   funInfos[getFunIndex(funame)].lineOfPrototype = line;
   funInfos[getFunIndex(funame)].fileOfPrototype = inpname;
+  
 }
 
 void store_add_def (char* funame, int line, char inpname){
+  if(getFunIndex==-1){
+    funInfos[numOfFuns].funame = funame;
+    numOfFuns++;
+  }
+  
   funInfos[getFunIndex(funame)].linesOfDefinition = line;
   funInfos[getFunIndex(funame)].fileOfDefinition = inpname;
 }
