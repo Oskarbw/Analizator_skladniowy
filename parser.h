@@ -38,5 +38,7 @@ void store_add_def (char* funame , int line, char* inpname);
 void store_add_proto (char* funame , int line, char* inpname);
 void store_add_call (char* funame , int line, char* inpname);
 
+void printFunInfo (void);
+
 
 #endif
