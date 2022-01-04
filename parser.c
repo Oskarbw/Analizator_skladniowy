@@ -11,7 +11,7 @@ int numOfFuns;
 
 int getFunIndex (char* funame) {
   for (int i=0;i<numOfFuns;i++) {
-    if(strcmp(funame, funInfos[i].funame) 
+    if(strcmp(funame, funInfos[i].funame)==0)
        return i;
   }
   return NULL;
