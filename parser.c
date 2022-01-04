@@ -5,6 +5,36 @@
 
 #define MAXINDENTLENGHT 256     // maks długość identyfikatora
 
+funInfo* funInfos;
+int numOfFuns;
+
+
+int getFunIndex (char* funame) {
+  for (int i=0;i<numOfFuns;i++) {
+    if(strcmp(funame, funInfos[i].funame) 
+       return i;
+  }
+  return NULL;
+}
+       
+void store_add_call (char* funame, int line, char* inpname){
+  funInfos[getFunIndex(funame)].funCalls[numOfFunCalls].line = line;
+  funInfos[getFunIndex(funame)].funCalls[numOfFunCalls].nameOfFile = inpname;
+}
+       
+void store_add_proto (char* funame, int line, char inpname){
+  funInfos[getFunIndex(funame)].lineOfPrototype = line;
+  funInfos[getFunIndex(funame)].fileOfPrototype = inpname;
+}
+
+void store_add_def (char* funame, int line, char inpname){
+  funInfos[getFunIndex(funame)].linesOfDefinition = line;
+  funInfos[getFunIndex(funame)].fileOfDefinition = inpname;
+}
+
+
+
+
 void
 analizatorSkladni (char *inpname)
 {                               // przetwarza plik inpname
