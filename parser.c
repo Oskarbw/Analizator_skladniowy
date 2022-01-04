@@ -18,30 +18,38 @@ int getFunIndex (char* funame) {
 }
        
 void store_add_call (char* funame, int line, char* inpname){
+  
   funInfos[getFunIndex(funame)].funCalls[numOfFunCalls].line = line;
+  funInfos[getFunIndex(funame)].funCalls[numOfFunCalls].nameOfFile = malloc((strlen(inpname) + 1) * sizeof(*char));
   funInfos[getFunIndex(funame)].funCalls[numOfFunCalls].nameOfFile = inpname;
 	numOfFunCalls++;
 }
        
 void store_add_proto (char* funame, int line, char* inpname){
   if(getFunIndex==-1){
+    funInfos = realloc(numOfFuns+2 * sizeof(funInfos));
+    funInfos[numOfFuns].funame = malloc((strlen(funame) + 1) * sizeof(*char));
     funInfos[numOfFuns].funame = funame;
     numOfFuns++;
   }
     
   
   funInfos[getFunIndex(funame)].lineOfPrototype = line;
+  funInfos[getFunIndex(funame)].fileOfPrototype = malloc((strlen(inpname) + 1) * sizeof(*char));
   funInfos[getFunIndex(funame)].fileOfPrototype = inpname;
   
 }
 
 void store_add_def (char* funame, int line, char inpname){
   if(getFunIndex==-1){
+    unInfos = realloc(numOfFuns+2 * sizeof(funInfos));
+    funInfos[numOfFuns].funame = malloc((strlen(funame) + 1) * sizeof(*char));
     funInfos[numOfFuns].funame = funame;
     numOfFuns++;
   }
   
   funInfos[getFunIndex(funame)].linesOfDefinition = line;
+  funInfos[getFunIndex(funame)].fileOfDefinition = malloc((strlen(inpname) + 1) * sizeof(*char));
   funInfos[getFunIndex(funame)].fileOfDefinition = inpname;
 }
 
