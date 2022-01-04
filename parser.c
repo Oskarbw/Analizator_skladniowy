@@ -32,7 +32,23 @@ void store_add_def (char* funame, int line, char inpname){
   funInfos[getFunIndex(funame)].fileOfDefinition = inpname;
 }
 
+void printFunInfos (void) {
+  for (int i = 0; i < numOfFuns; i++)
+	{
+		printf("funkcja %s\n", funInfos[i].funame);
 
+		printf("\tprototyp: %s:%d\n", funInfos[i].fileOfPrototype, funInfos[i].lineOfPrototype + 1);
+
+		printf("\tdefinicja: %s:%d\n", funInfos[i].fileOfDefinition, funInfos[i].lineOfDefinition + 1);
+
+		printf("\tuzycia :\n");
+
+		for (int j = 0; j < funInfos[i].numOfFunCalls; j++)
+		{
+			printf("\t\t%d: %s:%d\n", j + 1, funInfos[i].funCalls[j].nameOfFile, funInfos[i].funCalls[j].line + 1);
+		}
+	}
+  
 
 
 void
