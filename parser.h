@@ -23,7 +23,7 @@ typedef struct {
   int lineOfPrototype;
   char* fileOfPrototype;
   
-  int* linesOfDefinition;
+  int lineOfDefinition;
   char* fileOfDefinition;
   
   struct funIncluded* funsIncluded;
