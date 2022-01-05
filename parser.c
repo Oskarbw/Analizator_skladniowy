@@ -19,7 +19,7 @@ int getFunIndex (char* funame) {
 }
        
 void store_add_call (char* funame, int line, char* inpname){
-  
+  funInfos[getFunIndex(funame)].funCalls = realloc(funInfos[getFunIndex(funame)].funCalls, (funInfos[getFunIndex(funame)].numOfFunCalls+2)*sizeof(funInfos[getFunIndex(funame)].funCalls));
   funInfos[getFunIndex(funame)].funCalls[funInfos[getFunIndex(funame)].numOfFunCalls].line = line;
   funInfos[getFunIndex(funame)].funCalls[funInfos[getFunIndex(funame)].numOfFunCalls].nameOfFile = malloc((strlen(inpname) + 1) * sizeof(char));
   funInfos[getFunIndex(funame)].funCalls[funInfos[getFunIndex(funame)].numOfFunCalls].nameOfFile = inpname;
@@ -28,9 +28,11 @@ void store_add_call (char* funame, int line, char* inpname){
        
 void store_add_proto (char* funame, int line, char* inpname){
   if(getFunIndex(funame)==-1){
-    funInfos = realloc(funInfos,numOfFuns+2 * sizeof(funInfos));
+    funInfos = realloc(funInfos,(numOfFuns+2) * sizeof(funInfos));
+    
     funInfos[numOfFuns].funame = malloc((strlen(funame) + 1) * sizeof(char));
     funInfos[numOfFuns].funame = funame;
+    funInfos[getFunIndex(funame)].funCalls = malloc((funInfos[getFunIndex(funame)].numOfFunCalls+2)*sizeof(funInfos[getFunIndex(funame)].funCalls));
     numOfFuns++;
   }
     
@@ -43,7 +45,7 @@ void store_add_proto (char* funame, int line, char* inpname){
 
 void store_add_def (char* funame, int line, char* inpname){
   if(getFunIndex(funame)==-1){
-    funInfos = realloc(funInfos, numOfFuns+2 * sizeof(funInfos));
+    funInfos = realloc(funInfos, (numOfFuns+2) * sizeof(funInfos));
     funInfos[numOfFuns].funame = malloc((strlen(funame) + 1) * sizeof(char));
     funInfos[numOfFuns].funame = funame;
     numOfFuns++;
@@ -77,6 +79,8 @@ void printFunInfos (void) {
 void
 analizatorSkladni (char *inpname)
 {                               // przetwarza plik inpname
+  funInfos = malloc((numOfFuns+2) * sizeof(funInfos));
+
 
   FILE *in = fopen (inpname, "r");
 
