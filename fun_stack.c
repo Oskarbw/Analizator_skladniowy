@@ -23,7 +23,7 @@ void put_on_fun_stack(int par_level, char *funame){
 	start = stack;
 }
 
-char *get_from_fun_stack(void){
+char* get_from_fun_stack(void){
 	char *out;
 	out = start->funame;
 	struct fun_stack *del;

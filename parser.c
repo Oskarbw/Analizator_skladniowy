@@ -2,6 +2,7 @@
 #include <stdlib.h> // exit - ale exit trzeba kiedyś usunąć i nie będzie to potrzebne
 #include "alex.h"       // analizator leksykalny
 #include "fun_stack.h"  // stos funkcji
+#include "parser.h"
 
 #define MAXINDENTLENGHT 256     // maks długość identyfikatora
 
@@ -19,37 +20,37 @@ int getFunIndex (char* funame) {
        
 void store_add_call (char* funame, int line, char* inpname){
   
-  funInfos[getFunIndex(funame)].funCalls[numOfFunCalls].line = line;
-  funInfos[getFunIndex(funame)].funCalls[numOfFunCalls].nameOfFile = malloc((strlen(inpname) + 1) * sizeof(*char));
-  funInfos[getFunIndex(funame)].funCalls[numOfFunCalls].nameOfFile = inpname;
-	numOfFunCalls++;
+  funInfos[getFunIndex(funame)].funCalls[funInfos[getFunIndex(funame)].numOfFunCalls].line = line;
+  funInfos[getFunIndex(funame)].funCalls[funInfos[getFunIndex(funame)].numOfFunCalls].nameOfFile = malloc((strlen(inpname) + 1) * sizeof(char));
+  funInfos[getFunIndex(funame)].funCalls[funInfos[getFunIndex(funame)].numOfFunCalls].nameOfFile = inpname;
+	funInfos[getFunIndex(funame)].numOfFunCalls++;
 }
        
 void store_add_proto (char* funame, int line, char* inpname){
-  if(getFunIndex==-1){
-    funInfos = realloc(numOfFuns+2 * sizeof(funInfos));
-    funInfos[numOfFuns].funame = malloc((strlen(funame) + 1) * sizeof(*char));
+  if(getFunIndex(funame)==-1){
+    funInfos = realloc(funInfos,numOfFuns+2 * sizeof(funInfos));
+    funInfos[numOfFuns].funame = malloc((strlen(funame) + 1) * sizeof(char));
     funInfos[numOfFuns].funame = funame;
     numOfFuns++;
   }
     
   
   funInfos[getFunIndex(funame)].lineOfPrototype = line;
-  funInfos[getFunIndex(funame)].fileOfPrototype = malloc((strlen(inpname) + 1) * sizeof(*char));
+  funInfos[getFunIndex(funame)].fileOfPrototype = malloc((strlen(inpname) + 1) * sizeof(char));
   funInfos[getFunIndex(funame)].fileOfPrototype = inpname;
   
 }
 
-void store_add_def (char* funame, int line, char inpname){
-  if(getFunIndex==-1){
-    unInfos = realloc(numOfFuns+2 * sizeof(funInfos));
-    funInfos[numOfFuns].funame = malloc((strlen(funame) + 1) * sizeof(*char));
+void store_add_def (char* funame, int line, char* inpname){
+  if(getFunIndex(funame)==-1){
+    funInfos = realloc(funInfos, numOfFuns+2 * sizeof(funInfos));
+    funInfos[numOfFuns].funame = malloc((strlen(funame) + 1) * sizeof(char));
     funInfos[numOfFuns].funame = funame;
     numOfFuns++;
   }
   
-  funInfos[getFunIndex(funame)].linesOfDefinition = line;
-  funInfos[getFunIndex(funame)].fileOfDefinition = malloc((strlen(inpname) + 1) * sizeof(*char));
+  funInfos[getFunIndex(funame)].lineOfDefinition = line;
+  funInfos[getFunIndex(funame)].fileOfDefinition = malloc((strlen(inpname) + 1) * sizeof(char));
   funInfos[getFunIndex(funame)].fileOfDefinition = inpname;
 }
 
@@ -69,6 +70,7 @@ void printFunInfos (void) {
 			printf("\t\t%d: %s:%d\n", j + 1, funInfos[i].funCalls[j].nameOfFile, funInfos[i].funCalls[j].line + 1);
 		}
 	}
+}
   
 
 
@@ -107,7 +109,7 @@ analizatorSkladni (char *inpname)
       npar++;
       break;
     case CLOPAR:{              // zamykający nawias - to może być koniec prototypu, nagłówka albo wywołania
-        if (top_of_funstack () == npar) {       // sprawdzamy, czy liczba nawiasów bilansuje się z wierzchołkiem stosu funkcji
+        if (top_of_fun_stack () == npar) {       // sprawdzamy, czy liczba nawiasów bilansuje się z wierzchołkiem stosu funkcji
                                                 // jeśli tak, to właśnie wczytany nawias jest domknięciem nawiasu otwartego
                                                 // za identyfikatorem znajdującym się na wierzchołku stosu
           lexem_t nlex = alex_nextLexem ();     // bierzemy nast leksem
@@ -130,7 +132,7 @@ analizatorSkladni (char *inpname)
     case ERROR:{
         fprintf (stderr, "\nBUUUUUUUUUUUUUUUUUUUUUU!\n"
                  "W pliku %s (linia %d) są błędy składni.\n"
-                 "Kończę!\n\n", inpname, alex_getNL ());
+                 "Kończę!\n\n", inpname, alex_getLN ());
         exit (1);               // to nie jest najlepsze, ale jest proste ;-)
       }
       break;

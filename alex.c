@@ -1,6 +1,8 @@
 #include "alex.h"
 
 #include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
 
 static int  ln= 0;
 static char ident[256];

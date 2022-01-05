@@ -8,11 +8,11 @@
 struct funCall{
   int line;
   char* nameOfFile;
-}
+};
 struct funIncluded{
 char* nameOfFun;
   int num;
-}
+};
 
 typedef struct {
   char* funame;
@@ -39,6 +39,7 @@ void store_add_proto (char* funame , int line, char* inpname);
 void store_add_call (char* funame , int line, char* inpname);
 
 void printFunInfo (void);
+void analizatorSkladni(char* inpname);
 
 
 #endif
