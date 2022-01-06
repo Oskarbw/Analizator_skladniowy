@@ -17,3 +17,5 @@ int     alex_getLN();              // daj aktualny nr linii
 
 #endif
 
+//Komentarz
+
